@@ -1,0 +1,24 @@
+---
+- name: Install packages
+  hosts: api, db
+  yum: 
+  name= npm
+  state=installed
+  service:
+    name: npm
+    state: started
+- name:
+  - name: Install base packages
+  hosts: api, db
+  yum: name={{ npm }} 
+  state=installed
+- name: Create user
+  user:
+    name: "deploy_user"
+    comment: "Used to deploy"
+    state: present
+- name: Create .ssh folder
+  file:
+    path: "/home/deploy_user/.ssh/"
+    state: directory
+    mode: 0755
